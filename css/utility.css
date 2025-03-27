@@ -1,0 +1,75 @@
+.dNone{
+    display: none;
+}
+.vHid{
+    visibility: hidden;
+}
+
+.invert{
+    filter: invert(1);
+}
+.border{
+    border: 2px solid red;
+}
+.flex{
+    display: flex;
+}
+.alignItems{
+    align-items: center;
+}
+.cGrey{
+  color: grey;
+}
+.rel{
+    position: relative;
+}
+.pointer{
+    cursor: pointer;
+}
+
+input[id="seek"] {
+    -webkit-appearance: none;
+    width: 99%;
+    height: 10px;
+    background: #838282;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: 0.2s;
+    cursor: pointer;
+    transition: opacity 0.2s;
+    border-radius: 5px;
+    
+}
+
+/* Stylish thumb handle */
+input[id="seek"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    background: #52d657;
+    cursor: pointer;
+    border-radius: 50%;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect for better visibility */
+input[id="seek"]:hover {
+    opacity: 1;
+}
+input[id="volume"] {
+    width: 70px;
+    height: 5px;
+
+}
+
+#menu{
+    display: none;
+}
+#cross{
+    display: none;
+}
+.radius{
+    border-radius: 50%;
+}
