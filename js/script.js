@@ -16,12 +16,13 @@ let index;
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`http://127.0.0.1:3000/songs/`);
+  let responce = await fetch(`http://127.0.0.1:5500/songs/`);
   let text = await responce.text();
+  // console.log(responce);
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
   let anchors = Array.from(doc.querySelectorAll(`a`));
-  let folders = [];
+  let folders = ["another_artist"];
   for (let i = 0; i < anchors.length; i++) {
     const anchor = anchors[i];
     if (anchor.href.includes(`/songs/`)) {
@@ -33,12 +34,13 @@ const displayAlbums = async () => {
   for (const folder of folders) {
     let card = document.createElement("div");
     let responce = await fetch(
-      `http://127.0.0.1:3000/songs/${folder}/info.json`
+      `http://127.0.0.1:5500/songs/${folder}/info.json`
     );
+    console.log(responce);
     let folderInfo = await responce.json();
-    // console.log(folderInfo);
+    console.log(folderInfo);
     card.innerHTML = `
-        <div><img src="http://127.0.0.1:3000/songs/${folder}/cover.jpg" alt="cover"></div>
+        <div><img src="http://127.0.0.1:5500/songs/${folder}/cover.jpg" alt="cover"></div>
         <div class="details">
           <p>${folderInfo.title}</p>
           <p>${folderInfo.description}</p>
@@ -85,7 +87,7 @@ const loadMusic = async (folder) => {
   let songList = document.querySelector(`.songs ul`);
   songList.innerHTML = ``;
 
-  let responce = await fetch(`http://127.0.0.1:3000/songs/${folder}/`);
+  let responce = await fetch(`http://127.0.0.1:5500/songs/${folder}/`);
   let text = await responce.text();
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
@@ -154,7 +156,7 @@ const loadMusic = async (folder) => {
 
 const playMusic = (file, audio) => {
   currAudio.pause();
-  currAudio = new Audio(`http://127.0.0.1:3000/songs/${file}/${audio}`);
+  currAudio = new Audio(`http://127.0.0.1:5500/songs/${file}/${audio}`);
   currAudio.play();
   currAudio.volume = volume.value / 100;
   songInfo.textContent = audio;
