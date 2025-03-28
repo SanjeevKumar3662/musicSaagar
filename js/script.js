@@ -16,26 +16,24 @@ let index;
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`./songs/`);
-  let text = await responce.text();
+  // let responce = await fetch(`./songs/`);
+  // let text = await responce.text();
   // console.log(responce);
-  let doc = document.createElement(`div`);
-  doc.innerHTML = text;
-  let anchors = Array.from(doc.querySelectorAll(`a`));
-  let folders = ["indie_india","i-pop_icons","honey_singh",];
-  for (let i = 0; i < anchors.length; i++) {
-    const anchor = anchors[i];
-    if (anchor.href.includes(`/songs/`)) {
-      folders.push(anchor.href.split("/").slice(-2, -1)[0]);
-    }
-  }
-  console.log(folders);
+  // let doc = document.createElement(`div`);
+  // doc.innerHTML = text;
+  // let anchors = Array.from(doc.querySelectorAll(`a`));
+  let folders = ["indie_india", "i-pop_icons", "honey_singh"];
+  // for (let i = 0; i < anchors.length; i++) {
+  //   const anchor = anchors[i];
+  //   if (anchor.href.includes(`/songs/`)) {
+  //     folders.push(anchor.href.split("/").slice(-2, -1)[0]);
+  //   }
+  // }
+  // console.log(folders);
 
   for (const folder of folders) {
     let card = document.createElement("div");
-    let responce = await fetch(
-      `./songs/${folder}/info.json`
-    );
+    let responce = await fetch(`./songs/${folder}/info.json`);
     console.log(responce);
     let folderInfo = await responce.json();
     console.log(folderInfo);
