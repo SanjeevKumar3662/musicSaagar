@@ -23,12 +23,12 @@ const displayAlbums = async () => {
   doc.innerHTML = text;
   let anchors = Array.from(doc.querySelectorAll(`a`));
   let folders = ["indie_india","i-pop_icons","honey_singh",];
-  for (let i = 0; i < anchors.length; i++) {
-    const anchor = anchors[i];
-    if (anchor.href.includes(`/songs/`)) {
-      folders.push(anchor.href.split("/").slice(-2, -1)[0]);
-    }
-  }
+  // for (let i = 0; i < anchors.length; i++) {
+  //   const anchor = anchors[i];
+  //   if (anchor.href.includes(`/songs/`)) {
+  //     folders.push(anchor.href.split("/").slice(-2, -1)[0]);
+  //   }
+  // }
   console.log(folders);
 
   for (const folder of folders) {
