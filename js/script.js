@@ -22,7 +22,7 @@ const displayAlbums = async () => {
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
   let anchors = Array.from(doc.querySelectorAll(`a`));
-  let folders = ["another_artist"];
+  let folders = ["indie_india","i-pop_icons","honey_singh",];
   for (let i = 0; i < anchors.length; i++) {
     const anchor = anchors[i];
     if (anchor.href.includes(`/songs/`)) {
