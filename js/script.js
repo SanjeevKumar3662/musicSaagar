@@ -16,29 +16,31 @@ let index;
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`/songs/`);
+  let responce = await fetch(`./songs/`);
   let text = await responce.text();
   // console.log(responce);
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
   let anchors = Array.from(doc.querySelectorAll(`a`));
-  let folders = ["indie_india", "i-pop_icons", "honey_singh"];
-  // for (let i = 0; i < anchors.length; i++) {
-  //   const anchor = anchors[i];
-  //   if (anchor.href.includes(`/songs/`)) {
-  //     folders.push(anchor.href.split("/").slice(-2, -1)[0]);
-  //   }
-  // }
-  // console.log(folders);
+  let folders = ["indie_india","i-pop_icons","honey_singh",];
+  for (let i = 0; i < anchors.length; i++) {
+    const anchor = anchors[i];
+    if (anchor.href.includes(`/songs/`)) {
+      folders.push(anchor.href.split("/").slice(-2, -1)[0]);
+    }
+  }
+  console.log(folders);
 
   for (const folder of folders) {
     let card = document.createElement("div");
-    let responce = await fetch(`/songs/${folder}/info.json`);
-    // console.log(responce);
+    let responce = await fetch(
+      `./songs/${folder}/info.json`
+    );
+    console.log(responce);
     let folderInfo = await responce.json();
-    // console.log(folderInfo);
+    console.log(folderInfo);
     card.innerHTML = `
-        <div><img src="/songs/${folder}/cover.jpg" alt="cover"></div>
+        <div><img src="./songs/${folder}/cover.jpg" alt="cover"></div>
         <div class="details">
           <p>${folderInfo.title}</p>
           <p>${folderInfo.description}</p>
@@ -60,18 +62,18 @@ const displayAlbums = async () => {
   // Album mai agea piche hone ke liye upar jo 2 buttons hai usse index 5 se start hai 0 ki wajah kyuki prepend kiya tha isliye songs folder ke song wale cards ulte order mai lage hai website pe
   let prevAlbum = document.querySelector(`.prevAlbum`);
   prevAlbum.addEventListener(`click`, (e) => {
-    // console.log(`prevAlbum is clicked`);
+    console.log(`prevAlbum is clicked`);
     if (folderIndex < 5) {
-      // console.log(`select ${folderIndex + 1} album`);
+      console.log(`select ${folderIndex + 1} album`);
       folderIndex++;
       loadMusic(folders[folderIndex]);
     }
   });
   let nextAlbum = document.querySelector(`.nextAlbum`);
   nextAlbum.addEventListener(`click`, (e) => {
-    // console.log(`nextAlbum is clicked`);
+    console.log(`nextAlbum is clicked`);
     if (folderIndex > 0) {
-      // console.log(`select ${folderIndex - 1} album`);
+      console.log(`select ${folderIndex - 1} album`);
       folderIndex--;
       loadMusic(folders[folderIndex]);
     }
@@ -85,7 +87,7 @@ const loadMusic = async (folder) => {
   let songList = document.querySelector(`.songs ul`);
   songList.innerHTML = ``;
 
-  let responce = await fetch(`/songs/${folder}/`);
+  let responce = await fetch(`./songs/${folder}/`);
   let text = await responce.text();
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
@@ -105,10 +107,10 @@ const loadMusic = async (folder) => {
   play.src = "img/pause.svg";
   playbar.classList.remove(`vHid`);
   let songName = decodeURI(currAudio.src.split("/").slice(-1)[0]);
-  // console.log(songs);
-  // console.log(songName);
+  console.log(songs);
+  console.log(songName);
   index = songs.indexOf(songName);
-  // console.log(index);
+  console.log(index);
 
   let songLi;
   for (let i = 0; i < songs.length; i++) {
@@ -134,7 +136,7 @@ const loadMusic = async (folder) => {
     download.forEach((e) => {
       e.addEventListener(`click`, (e) => {
         e.stopPropagation();
-        // console.log(`download`);
+        console.log(`download`);
       });
     });
   }
@@ -144,9 +146,9 @@ const loadMusic = async (folder) => {
       play.src = "img/pause.svg";
       // console.log(currFolder, e.currentTarget.querySelector(`p`).textContent)
       playMusic(currFolder, e.currentTarget.querySelector(`p`).textContent);
-      // console.log(
-      //   songs.indexOf(e.currentTarget.querySelector(`p`).textContent)
-      // );
+      console.log(
+        songs.indexOf(e.currentTarget.querySelector(`p`).textContent)
+      );
       index = songs.indexOf(e.currentTarget.querySelector(`p`).textContent);
     });
   });
@@ -154,7 +156,7 @@ const loadMusic = async (folder) => {
 
 const playMusic = (file, audio) => {
   currAudio.pause();
-  currAudio = new Audio(`/songs/${file}/${audio}`);
+  currAudio = new Audio(`./songs/${file}/${audio}`);
   currAudio.play();
   currAudio.volume = volume.value / 100;
   songInfo.textContent = audio;
@@ -173,7 +175,7 @@ const playMusic = (file, audio) => {
   });
   // Next audio of album automatically playing
   currAudio.addEventListener("ended", () => {
-    // console.log(`next song playing`);
+    console.log(`next song playing`);
     if (index + 1 < songs.length) {
       index++;
       playMusic(currFolder, songs[index]);
@@ -241,7 +243,7 @@ async function main() {
   //  Handling prev next button to go forward and backward in library
   let prev = document.querySelector(`#prev`);
   prev.addEventListener("click", (e) => {
-    // console.log("Previous button clicked");
+    console.log("Previous button clicked");
     if (index - 1 >= 0) {
       index--; // Update the index
       play.src = "img/pause.svg";
@@ -250,7 +252,7 @@ async function main() {
   });
   let next = document.querySelector(`#next`);
   next.addEventListener("click", (e) => {
-    // console.log("Next button clicked");
+    console.log("Next button clicked");
     if (index + 1 < songs.length) {
       index++; // Update the index
       play.src = "img/pause.svg";
