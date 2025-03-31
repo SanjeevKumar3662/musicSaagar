@@ -11,10 +11,10 @@ let volIcon = document.querySelector(`#volIcon`);
 let playbar = document.querySelector(`.playbar`);
 let folderIndex = 5;
 let index;
-let MODE = "prod";
+let MODE = "dev";
 let publicPath;
 if (MODE === "dev") {
-  publicPath = "/public/";
+  publicPath = ".vercel/output/static/";
 } else {
   publicPath = "/";
 }
