@@ -1,6 +1,3 @@
-// require("dotenv").config();
-// console.log(process.env.PORT);
-
 let currAudio = new Audio();
 let currFolder;
 let songs;
@@ -19,18 +16,20 @@ let index;
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`/songs/`);
+  let responce = await fetch(`/songs/albums.json`);
   let text = await responce.text();
-  let doc = document.createElement(`div`);
-  doc.innerHTML = text;
-  let anchors = Array.from(doc.querySelectorAll(`a`));
-  let folders = [];
-  for (let i = 0; i < anchors.length; i++) {
-    const anchor = anchors[i];
-    if (anchor.href.includes(`/songs/`)) {
-      folders.push(anchor.href.split("/").slice(-2, -1)[0]);
-    }
-  }
+  text = JSON.parse(text);
+  console.log(text);
+  let folders = text.albums;
+  // let doc = document.createElement(`div`);
+  // doc.innerHTML = text;
+  // let anchors = Array.from(doc.querySelectorAll(`a`));
+  // for (let i = 0; i < anchors.length; i++) {
+  //   const anchor = anchors[i];
+  //   if (anchor.href.includes(`/songs/`)) {
+  //     folders.push(anchor.href.split("/").slice(-2, -1)[0]);
+  //   }
+  // }
   console.log(folders);
 
   for (const folder of folders) {
