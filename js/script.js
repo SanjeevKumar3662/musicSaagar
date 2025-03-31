@@ -1,3 +1,6 @@
+// require("dotenv").config();
+// console.log(process.env.PORT);
+
 let currAudio = new Audio();
 let currFolder;
 let songs;
@@ -16,7 +19,7 @@ let index;
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`http://127.0.0.1:3000/songs/`);
+  let responce = await fetch(`/songs/`);
   let text = await responce.text();
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
@@ -32,13 +35,11 @@ const displayAlbums = async () => {
 
   for (const folder of folders) {
     let card = document.createElement("div");
-    let responce = await fetch(
-      `http://127.0.0.1:3000/songs/${folder}/info.json`
-    );
+    let responce = await fetch(`/songs/${folder}/info.json`);
     let folderInfo = await responce.json();
     // console.log(folderInfo);
     card.innerHTML = `
-        <div><img src="http://127.0.0.1:3000/songs/${folder}/cover.jpg" alt="cover"></div>
+        <div><img src="/songs/${folder}/cover.jpg" alt="cover"></div>
         <div class="details">
           <p>${folderInfo.title}</p>
           <p>${folderInfo.description}</p>
@@ -85,7 +86,7 @@ const loadMusic = async (folder) => {
   let songList = document.querySelector(`.songs ul`);
   songList.innerHTML = ``;
 
-  let responce = await fetch(`http://127.0.0.1:3000/songs/${folder}/`);
+  let responce = await fetch(`/songs/${folder}/`);
   let text = await responce.text();
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
@@ -154,7 +155,7 @@ const loadMusic = async (folder) => {
 
 const playMusic = (file, audio) => {
   currAudio.pause();
-  currAudio = new Audio(`http://127.0.0.1:3000/songs/${file}/${audio}`);
+  currAudio = new Audio(`/songs/${file}/${audio}`);
   currAudio.play();
   currAudio.volume = volume.value / 100;
   songInfo.textContent = audio;
