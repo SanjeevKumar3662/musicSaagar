@@ -12,10 +12,10 @@ let playbar = document.querySelector(`.playbar`);
 let folderIndex = 5;
 let index;
 // let MODE = "dev";
-let MODE = "prod";
+let MODE = "dev";
 let publicPath;
 if (MODE === "dev") {
-  publicPath = ".vercel/output/static/";
+  publicPath = "public/";
   console.log("mode -> dev");
 } else {
   publicPath = "/";
