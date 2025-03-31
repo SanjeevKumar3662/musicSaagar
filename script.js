@@ -11,12 +11,15 @@ let volIcon = document.querySelector(`#volIcon`);
 let playbar = document.querySelector(`.playbar`);
 let folderIndex = 5;
 let index;
-let MODE = "dev";
+// let MODE = "dev";
+let MODE = "prod";
 let publicPath;
 if (MODE === "dev") {
   publicPath = ".vercel/output/static/";
+  console.log("mode -> dev");
 } else {
   publicPath = "/";
+  console.log("mode -> prod");
 }
 
 // Step 1: To display album on website by scanning the songs folder
