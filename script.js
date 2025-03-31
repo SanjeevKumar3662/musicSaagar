@@ -11,12 +11,19 @@ let volIcon = document.querySelector(`#volIcon`);
 let playbar = document.querySelector(`.playbar`);
 let folderIndex = 5;
 let index;
+let MODE = "dev";
+let publicPath;
+if (MODE === "dev") {
+  publicPath = "/public/";
+} else {
+  publicPath = "/";
+}
 
 // Step 1: To display album on website by scanning the songs folder
 const displayAlbums = async () => {
   let cardContainer = document.querySelector(`.cardContainer`);
   // Get all folders in "Songs" directory
-  let responce = await fetch(`/songs/albums.json`);
+  let responce = await fetch(`${publicPath}songs/albums.json`);
   let text = await responce.text();
   text = JSON.parse(text);
   console.log(text);
@@ -26,7 +33,7 @@ const displayAlbums = async () => {
   // let anchors = Array.from(doc.querySelectorAll(`a`));
   // for (let i = 0; i < anchors.length; i++) {
   //   const anchor = anchors[i];
-  //   if (anchor.href.includes(`/songs/`)) {
+  //   if (anchor.href.includes(`${publicPath}songs/`)) {
   //     folders.push(anchor.href.split("/").slice(-2, -1)[0]);
   //   }
   // }
@@ -34,11 +41,11 @@ const displayAlbums = async () => {
 
   for (const folder of folders) {
     let card = document.createElement("div");
-    let responce = await fetch(`/songs/${folder}/info.json`);
+    let responce = await fetch(`${publicPath}songs/${folder}/info.json`);
     let folderInfo = await responce.json();
     // console.log(folderInfo);
     card.innerHTML = `
-        <div><img src="/songs/${folder}/cover.jpg" alt="cover"></div>
+        <div><img src="${publicPath}songs/${folder}/cover.jpg" alt="cover"></div>
         <div class="details">
           <p>${folderInfo.title}</p>
           <p>${folderInfo.description}</p>
@@ -85,7 +92,7 @@ const loadMusic = async (folder) => {
   let songList = document.querySelector(`.songs ul`);
   songList.innerHTML = ``;
 
-  let responce = await fetch(`/songs/${folder}/`);
+  let responce = await fetch(`${publicPath}songs/${folder}/`);
   let text = await responce.text();
   let doc = document.createElement(`div`);
   doc.innerHTML = text;
@@ -154,7 +161,7 @@ const loadMusic = async (folder) => {
 
 const playMusic = (file, audio) => {
   currAudio.pause();
-  currAudio = new Audio(`/songs/${file}/${audio}`);
+  currAudio = new Audio(`${publicPath}songs/${file}/${audio}`);
   currAudio.play();
   currAudio.volume = volume.value / 100;
   songInfo.textContent = audio;

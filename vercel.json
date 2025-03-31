@@ -1,0 +1,21 @@
+{
+  "version": 2,
+  "public": "public", 
+  "builds": [
+    { "src": "index.html", "use": "@vercel/static" }
+  ],
+  "routes": [
+    {
+      "src": "/songs/(.*)", 
+      "dest": "/songs/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/songs/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "max-age=31536000, immutable" }
+      ]
+    }
+  ]
+}
