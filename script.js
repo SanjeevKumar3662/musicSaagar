@@ -89,79 +89,146 @@ const displayAlbums = async () => {
 };
 
 // album pe click karn pe jo puri songs ki list library mai add hogi
+// const loadMusic = async (folder) => {
+//   currFolder = folder;
+//   // currAudio.pause();
+//   let songList = document.querySelector(`.songs ul`);
+//   songList.innerHTML = ``;
+
+//   let responce = await fetch(`${publicPath}songs/${folder}/`);
+//   let text = await responce.text();
+//   let doc = document.createElement(`div`);
+//   doc.innerHTML = text;
+//   let anchors = Array.from(doc.querySelectorAll(`a`));
+//   songs = [];
+//   for (let i = 0; i < anchors.length; i++) {
+//     const anchor = anchors[i];
+//     if (anchor.href.endsWith(`.mp3`)) {
+//       songs.push(decodeURI(anchor.href.split("/").slice(-1)[0]));
+//     }
+//   }
+//   // console.log(songs)
+
+//   // play first audio of album on clicking and update other things
+//   playMusic(folder, songs[0]);
+//   index = 0;
+//   play.src = "img/pause.svg";
+//   playbar.classList.remove(`vHid`);
+//   let songName = decodeURI(currAudio.src.split("/").slice(-1)[0]);
+//   console.log(songs);
+//   console.log(songName);
+//   index = songs.indexOf(songName);
+//   console.log(index);
+
+//   let songLi;
+//   for (let i = 0; i < songs.length; i++) {
+//     const song = songs[i];
+//     songLi = document.createElement(`li`);
+//     songLi.innerHTML = `
+//     <svg class="invert" xmlns="http://www.w3.org/2000/svg" width="24" height="44" viewBox="0 0 24 24"
+//     fill="none">
+//     <circle cx="6.5" cy="18.5" r="3.5" stroke="#000000" stroke-width="1.5" />
+//     <circle cx="18" cy="16" r="3" stroke="#000000" stroke-width="1.5" />
+//     <path
+//       d="M10 18.5L10 7C10 6.07655 10 5.61483 10.2635 5.32794C10.5269 5.04106 11.0175 4.9992 11.9986 4.91549C16.022 4.57222 18.909 3.26005 20.3553 2.40978C20.6508 2.236 20.7986 2.14912 20.8993 2.20672C21 2.26432 21 2.4315 21 2.76587V16"
+//       stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+//     <path d="M10 10C15.8667 10 19.7778 7.66667 21 7" stroke="#000000" stroke-width="1.5"
+//       stroke-linecap="round" stroke-linejoin="round" />
+//   </svg>
+//   <p>${song}</p>
+//   <button class="playNow flex"><a class="download" href="songs/${folder}/${song}" download><img height="25px" class="invert" src="img/download.svg" alt="download"></a></button>
+//       `;
+//     songLi.classList.add("gaana");
+//     songList.append(songLi);
+//     let download = document.querySelectorAll(`.download`);
+//     download.forEach((e) => {
+//       e.addEventListener(`click`, (e) => {
+//         e.stopPropagation();
+//         console.log(`download`);
+//       });
+//     });
+//   }
+//   let sList = document.querySelectorAll(`.gaana`);
+//   sList.forEach((li) => {
+//     li.addEventListener(`click`, (e) => {
+//       play.src = "img/pause.svg";
+//       // console.log(currFolder, e.currentTarget.querySelector(`p`).textContent)
+//       playMusic(currFolder, e.currentTarget.querySelector(`p`).textContent);
+//       console.log(
+//         songs.indexOf(e.currentTarget.querySelector(`p`).textContent)
+//       );
+//       index = songs.indexOf(e.currentTarget.querySelector(`p`).textContent);
+//     });
+//   });
+// };
+
+//this is gpt
 const loadMusic = async (folder) => {
-  currFolder = folder;
-  // currAudio.pause();
-  let songList = document.querySelector(`.songs ul`);
-  songList.innerHTML = ``;
+    currFolder = folder;
+    let songList = document.querySelector(`.songs ul`);
+    songList.innerHTML = ``;
 
-  let responce = await fetch(`${publicPath}songs/${folder}/`);
-  let text = await responce.text();
-  let doc = document.createElement(`div`);
-  doc.innerHTML = text;
-  let anchors = Array.from(doc.querySelectorAll(`a`));
-  songs = [];
-  for (let i = 0; i < anchors.length; i++) {
-    const anchor = anchors[i];
-    if (anchor.href.endsWith(`.mp3`)) {
-      songs.push(decodeURI(anchor.href.split("/").slice(-1)[0]));
+    // --- CHANGE STARTS HERE ---
+    let response = await fetch(`${publicPath}songs/${folder}/songs.json`); // Fetch the songs.json
+    let data = await response.json(); // Parse the JSON response
+    songs = data.songs; // Assign the songs array from the JSON
+    // --- CHANGE ENDS HERE ---
+
+    // Now, the rest of your code for playing the first song and populating the list
+    // will work correctly because 'songs' is already populated.
+    playMusic(folder, songs[0]);
+    index = 0;
+    play.src = "img/pause.svg";
+    playbar.classList.remove(`vHid`);
+    let songName = decodeURI(currAudio.src.split("/").slice(-1)[0]);
+    console.log(songs);
+    console.log(songName);
+    index = songs.indexOf(songName);
+    console.log(index);
+
+    let songLi;
+    for (let i = 0; i < songs.length; i++) {
+        const song = songs[i];
+        songLi = document.createElement(`li`);
+        songLi.innerHTML = `
+        <svg class="invert" xmlns="http://www.w3.org/2000/svg" width="24" height="44" viewBox="0 0 24 24"
+        fill="none">
+        <circle cx="6.5" cy="18.5" r="3.5" stroke="#000000" stroke-width="1.5" />
+        <circle cx="18" cy="16" r="3" stroke="#000000" stroke-width="1.5" />
+        <path
+            d="M10 18.5L10 7C10 6.07655 10 5.61483 10.2635 5.32794C10.5269 5.04106 11.0175 4.9992 11.9986 4.91549C16.022 4.57222 18.909 3.26005 20.3553 2.40978C20.6508 2.236 20.7986 2.14912 20.8993 2.20672C21 2.26432 21 2.4315 21 2.76587V16"
+            stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <path d="M10 10C15.8667 10 19.7778 7.66667 21 7" stroke="#000000" stroke-width="1.5"
+            stroke-linecap="round" stroke-linejoin="round" />
+        </svg>
+        <p>${song}</p>
+        <button class="playNow flex"><a class="download" href="songs/${folder}/${song}" download><img height="25px" class="invert" src="img/download.svg" alt="download"></a></button>
+        `;
+        songLi.classList.add("gaana");
+        songList.append(songLi);
+        let download = document.querySelectorAll(`.download`);
+        download.forEach((e) => {
+            e.addEventListener(`click`, (e) => {
+                e.stopPropagation();
+                console.log(`download`);
+            });
+        });
     }
-  }
-  // console.log(songs)
-
-  // play first audio of album on clicking and update other things
-  playMusic(folder, songs[0]);
-  index = 0;
-  play.src = "img/pause.svg";
-  playbar.classList.remove(`vHid`);
-  let songName = decodeURI(currAudio.src.split("/").slice(-1)[0]);
-  console.log(songs);
-  console.log(songName);
-  index = songs.indexOf(songName);
-  console.log(index);
-
-  let songLi;
-  for (let i = 0; i < songs.length; i++) {
-    const song = songs[i];
-    songLi = document.createElement(`li`);
-    songLi.innerHTML = `
-    <svg class="invert" xmlns="http://www.w3.org/2000/svg" width="24" height="44" viewBox="0 0 24 24"
-    fill="none">
-    <circle cx="6.5" cy="18.5" r="3.5" stroke="#000000" stroke-width="1.5" />
-    <circle cx="18" cy="16" r="3" stroke="#000000" stroke-width="1.5" />
-    <path
-      d="M10 18.5L10 7C10 6.07655 10 5.61483 10.2635 5.32794C10.5269 5.04106 11.0175 4.9992 11.9986 4.91549C16.022 4.57222 18.909 3.26005 20.3553 2.40978C20.6508 2.236 20.7986 2.14912 20.8993 2.20672C21 2.26432 21 2.4315 21 2.76587V16"
-      stroke="#000000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
-    <path d="M10 10C15.8667 10 19.7778 7.66667 21 7" stroke="#000000" stroke-width="1.5"
-      stroke-linecap="round" stroke-linejoin="round" />
-  </svg>
-  <p>${song}</p>
-  <button class="playNow flex"><a class="download" href="songs/${folder}/${song}" download><img height="25px" class="invert" src="img/download.svg" alt="download"></a></button>
-      `;
-    songLi.classList.add("gaana");
-    songList.append(songLi);
-    let download = document.querySelectorAll(`.download`);
-    download.forEach((e) => {
-      e.addEventListener(`click`, (e) => {
-        e.stopPropagation();
-        console.log(`download`);
-      });
+    let sList = document.querySelectorAll(`.gaana`);
+    sList.forEach((li) => {
+        li.addEventListener(`click`, (e) => {
+            play.src = "img/pause.svg";
+            playMusic(currFolder, e.currentTarget.querySelector(`p`).textContent);
+            console.log(
+                songs.indexOf(e.currentTarget.querySelector(`p`).textContent)
+            );
+            index = songs.indexOf(e.currentTarget.querySelector(`p`).textContent);
+        });
     });
-  }
-  let sList = document.querySelectorAll(`.gaana`);
-  sList.forEach((li) => {
-    li.addEventListener(`click`, (e) => {
-      play.src = "img/pause.svg";
-      // console.log(currFolder, e.currentTarget.querySelector(`p`).textContent)
-      playMusic(currFolder, e.currentTarget.querySelector(`p`).textContent);
-      console.log(
-        songs.indexOf(e.currentTarget.querySelector(`p`).textContent)
-      );
-      index = songs.indexOf(e.currentTarget.querySelector(`p`).textContent);
-    });
-  });
 };
 
+
+//this is gpt
 const playMusic = (file, audio) => {
   currAudio.pause();
   currAudio = new Audio(`${publicPath}songs/${file}/${audio}`);
