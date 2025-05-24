@@ -11,8 +11,8 @@ let volIcon = document.querySelector(`#volIcon`);
 let playbar = document.querySelector(`.playbar`);
 let folderIndex = 5;
 let index;
-// let MODE = "dev";
-let MODE = "prod";
+let MODE = "dev";
+// let MODE = "prod";
 let publicPath;
 if (MODE === "dev") {
   publicPath = "public/";
